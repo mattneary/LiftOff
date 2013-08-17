@@ -15,7 +15,7 @@ class LiftOff
 	}
       }
     }
-    defm.("middle") { |p,&b|
+    defm.("before") { |p,&b|
       middleware[p] = b
     }
     @builder = builder
@@ -24,15 +24,19 @@ end
 
 server = LiftOff.new.builder
 
-middle '/' do
+before '/' do
+  @title = "hello"
   puts "middle"
+  self
 end
 get '/' do
+  p @title
   "Hello"
 end
 
-middle '/bye' do
+before '/bye' do
   puts "middle"
+  self
 end
 post '/bye' do
   "Goodbye"
